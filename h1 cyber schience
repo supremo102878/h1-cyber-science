@@ -1,0 +1,86 @@
+
+h1 Cyber Science – Homework Report
+
+a) Science hunt – finding and selecting a review article
+
+Search process
+
+1.	Database: Google Scholar (as suggested in the assignment).
+2.	Search terms used: I started with the recommended query format:
+•	intitle: review threat modeling
+•	I also tried intitle: review threat modeling and intitle: review systematic literature review.
+3.	Screening: I opened the first page of results and scanned titles/abstracts. I prioritized articles that explicitly said systematic literature review or review in the title and were published in 2023–2024.
+4.	JUFO verification: For the chosen journal, I checked the JUFO portal. The journal Computers & Security has JUFO level 2 (JUFO ID 53963). This satisfies the requirement of JUFO 1, 2, or 3.
+
+b) Review the review
+
+Article: Khalil, S. M., Bahsi, H., & Korõtko, T. (2024). Threat modeling of industrial control systems: A systematic literature review. Computers & Security, 136, 103543.
+
+I’ll be honest: these article is dense. It’s a proper systematic literature review, so there’s a lot of methodology and a long list of references before you even get to the findings. But once I got past the how we searched section, the core argument became pretty clear. The authors are essentially saying that threat modeling for Industrial Control Systems (ICS) is not just cybersecurity for factories; it’s a different beast because you’re dealing with physical processes, safety, and often legacy equipment. Below is what I took away.
+
+What are the key areas being researched?
+
+•	Threat modeling methodologies specifically for ICS. The review maps out the existing approaches and looks at how they handle the weirdness of ICS environments, things like real-time constraints, proprietary protocols, and the fact that a security failure can become a physical safety failure. The authors stress that you need a methodical framework, not just a checklist, and that the framework should cover safety, security, and privacy together, with clear procedural guidelines.
+•	The gap between general IT threat modeling and ICS needs. A lot of the early threat modeling work came from software security during the design phase. The review points out that this has been adapted for ICS, but the adaptation isn’t always clean. ICS are complex, interconnected systems controlling critical infrastructure power plants, water treatment, and manufacturing, so the stakes are higher.
+•	Validation (or the lack of it). This was the part that surprised me most. The review explicitly says that ICS threat modeling often lacks validation, meaning people propose methodologies, but there isn’t much evidence that those methodologies actually work in practice. That felt like a real critique, not just a polite literature summary.
+
+What’s widely agreed upon?
+
+•	Threat modeling matters for ICS. No one in the literature seems to argue that threat modeling is optional for industrial control systems. The review treats it as foundational, especially because ICS are major targets and a successful attack can lead to human casualties, national security impacts, and financial instability.
+•	Structured methods beat ad-hoc approaches. The authors are clear that informal, ad-hoc threat modeling isn’t enough for the complexity of ICS. You need a structured methodology with clear steps; otherwise you’re just guessing.
+•	Safety and security can’t be treated separately. This is a theme that runs through the review: in ICS, a cyber threat can quickly become a safety incident. So, the threat model has to account for both dimensions, not just focus on data confidentiality like you might in a traditional IT context.
+
+What are the open questions?
+
+•	How to actually integrate safety, security, and privacy into one framework. The review says this integration is important, but it doesn’t pretend the problem is solved. The optimal way to combine these concerns is still an open research question. In practice, different methodologies emphasize different aspects, and there’s no consensus on the best balance.
+
+•	How to validate threat modeling methodologies for ICS. This is probably the biggest open question for me. If the review is saying that validation is often missing, then the follow-up question is: how should we validate these methods? What would a good validation study even look like in an ICS context? The article flags the gap but doesn’t fully answer it.
+
+•	Practical applicability in real operational technology (OT) environments. There’s a difference between a methodology that looks good on paper and one that an engineer can actually use on a live plant floor with legacy equipment and production pressure. The review maps the literature, but the question of whether this works when you’re actually deployed remains partly unresolved.
+
+My honest take after reading
+
+What I appreciated is that the review doesn’t oversell the field. It clearly states that threat modeling for ICS matters, but it also admits the literature is fragmented, and validation is weak. That made it feel more credible than a paper that just lists methodologies and calls it a day. The main thing I’ll remember is the validation gap; it’s a useful reminder that a framework existing in a paper doesn’t mean it’s been proven to work.
+
+c) Threat modeling quick run – two risks and a META decision
+
+Company: MediStore Oy (A small Finnish company that provides a cloud-based patient-record system to private clinics.)
+
+Crown jewels
+
+Data: Patient records, personal identity codes, appointment histories.
+Business continuity: The service must be available during clinic opening hours.
+Reputation: A breach would destroy trust among clinics and patients.
+Money: Subscription revenue and potential GDPR fines.
+Bad guys (COI)
+Capability: Moderate, from individual criminals to small cyber-crime groups.
+Opportunity: Internet-facing login portal, third-party integrations, remote administration.
+Intent: Steal patient data to sell, use ransomware to extort, or disrupt operations for hacktivism.
+
+
+Risk 1 – Credential stuffing against the clinic login portal
+Element	Detail
+Description	Attackers use leaked username/password pairs from other breaches to try to log in to the MediStore portal. A successful takeover leads to unauthorized access to patient records.
+Likelihood	25 % per year (based on the prevalence of credential-stuffing attacks against healthcare portals)
+Impact	€150,000 (GDPR fine, notification costs, lost contracts) 
+Estimated value	0.25 × €150,000 = €37,500
+
+Risk 2 – Ransomware encrypts the production database
+Element	Detail
+Description	Ransomware delivered via a phishing email encrypts the patient-record database, causing multi-day downtime and potential data loss. 
+Likelihood	10 % per year 
+Impact	€400,000 (downtime, recovery costs, reputational damage) 
+Estimated value	0.10 × €400,000 = €40,000
+
+Biggest risk
+
+Risk 2 – Ransomware (€40,000 estimated value) is the larger of the two.
+
+META decision for the biggest risk: Mitigate
+
+Action plan:
+
+•	Mitigate by implementing immutable, offline backups that are tested monthly. This reduces the impact of encryption because the organization can restore data without paying a ransom.
+•	Mitigate by enforcing multi-factor authentication (MFA) on all administrative access and by segmenting the database network. This reduces the likelihood of successful ransomware deployment.
+•	Why not eliminate? Ransomware cannot be eliminated in an internet-connected business.
+•	Why not transfer? Cyber insurance can transfer part of the financial loss, but it does not remove operational downtime or reputational harm. Mitigation is therefore the primary control.
